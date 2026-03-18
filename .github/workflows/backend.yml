@@ -30,3 +30,17 @@ jobs:
 
       - name: Run tests
         run: pytest || true
+
+      # TASK 3: SonarQube (SonarCloud) Integration
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          # This tells SonarCloud to use the secrets you created
+          args: >
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.sources=.
+            -Dsonar.python.version=3
