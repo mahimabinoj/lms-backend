@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # FIX: Tell GitHub to look inside your backend folder
     defaults:
       run:
         working-directory: ./backend-flask
@@ -31,14 +30,19 @@ jobs:
       - name: Run tests
         run: pytest || true
 
+      # TASK 4: SNYK Integration (Dependency Vulnerability Scan)
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        env:
+          [cite_start]SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }} # Ensure this secret is added to GitHub 
+
       # TASK 3: SonarQube (SonarCloud) Integration
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          # This tells SonarCloud to use the secrets you created
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
