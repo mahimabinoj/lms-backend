@@ -12,7 +12,7 @@ jobs:
     # FIX: Tell GitHub to look inside your backend folder
     defaults:
       run:
-        working-directory: ./backend-folder-name # CHANGE THIS to your actual folder name
+        working-directory: ./backend-flask
 
     steps:
       - uses: actions/checkout@v3
