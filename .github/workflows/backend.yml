@@ -30,11 +30,14 @@ jobs:
       - name: Run tests
         run: pytest || true
 
-      # TASK 4: SNYK Integration (Dependency Vulnerability Scan)
+     # TASK 4: SNYK Integration (Dependency Vulnerability Scan)
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          # This tells Snyk to look inside your backend folder [cite: 10]
+          args: --file=backend-flask/requirements.txt
 
       # TASK 3: SonarQube (SonarCloud) Integration
       - name: SonarCloud Scan
